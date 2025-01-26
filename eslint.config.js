@@ -1,13 +1,17 @@
-const js = require('@eslint/js');
+import globals from 'globals';
+import pluginJs from '@eslint/js';
 
-module.exports = [
-	js.configs.recommended,
+
+/** @type {import('eslint').Linter.Config[]} */
+export default [
+	{ languageOptions: { globals: globals.browser } },
+	pluginJs.configs.recommended,
 	{
 		languageOptions: {
 			ecmaVersion: 'latest',
 		},
 		rules: {
-            'arrow-spacing': ['warn', { before: true, after: true }],
+			'arrow-spacing': ['warn', { before: true, after: true }],
 			'brace-style': ['error', 'stroustrup', { allowSingleLine: true }],
 			'comma-dangle': ['error', 'always-multiline'],
 			'comma-spacing': 'error',
