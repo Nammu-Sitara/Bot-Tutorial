@@ -72,12 +72,18 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-// Give answer from select msg in select channel
+// Give a traduction from a received message in #automaton-commands
 client.on(Events.MessageCreate, onGotMessage);
 
-function onGotMessage(msg) {
-	console.log(msg);
-	if (msg.channel.id == '1333001853096689767' && msg.content.toLowerCase() === 'boop') {
-		msg.reply('No');
+async function onGotMessage(msg) {
+	// console.log(msg);
+	if (msg.channel.id == '1333001853096689767' && msg.content.toLowerCase() === '!translate') {
+		msg.reply('Translating...');
+		const res = await fetch('https://translate.google.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q="ma voiture est tombée en panne"');
+
+		const responseText = await res.text();
+		const responseJson = await JSON.parse(responseText);
+		// console.log(responseJson[0][0][0]);
+		msg.reply(responseJson[0][0][0]);
 	}
 }
