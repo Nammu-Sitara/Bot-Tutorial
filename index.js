@@ -2,7 +2,7 @@
 console.log('Tut tut muthaclucka');
 
 import { Client, GatewayIntentBits } from 'discord.js'; 
-
+import config from './config.json' with { type:'json' };
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -11,14 +11,17 @@ const client = new Client({
         GatewayIntentBits.GuildMembers,
     ]
 });
-client.login('TOKEN');
+
+client.login(config.BOT_TOKEN);
 
 client.on('ready', onReadyCallback);
 
+// Answer on Bot readyness
 function onReadyCallback() {
     console.log('<3');
 }
 
+// Give answer from select msg in select channel
 client.on('message', onGotMessage);
 
 function onGotMessage(msg) {
