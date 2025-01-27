@@ -1,11 +1,11 @@
 // Bot tutorial
-console.log('Tut tut muthaclucka');
 
 // Imports
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, GatewayIntentBits, Collection, Events } = require('discord.js');
 const config = require('./config.json');
+const { Message } = require('discord.js');
 
 // Creating client object
 const client = new Client({
@@ -45,7 +45,7 @@ client.on(Events.ClientReady, onReadyCallback);
 
 // Answer on Bot readyness
 function onReadyCallback() {
-	console.log('<3');
+	console.log('Automaton ready');
 }
 
 // Receiving command interactions
@@ -71,19 +71,3 @@ client.on(Events.InteractionCreate, async interaction => {
 		}
 	}
 });
-
-// Give a traduction from a received message in #automaton-commands
-client.on(Events.MessageCreate, onGotMessage);
-
-async function onGotMessage(msg) {
-	// console.log(msg);
-	if (msg.channel.id == '1333001853096689767' && msg.content.toLowerCase() === '!translate') {
-		msg.reply('Translating...');
-		const res = await fetch('https://translate.google.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q="ma voiture est tombée en panne"');
-
-		const responseText = await res.text();
-		const responseJson = await JSON.parse(responseText);
-		// console.log(responseJson[0][0][0]);
-		msg.reply(responseJson[0][0][0]);
-	}
-}
