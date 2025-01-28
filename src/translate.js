@@ -4,4 +4,4 @@ module.exports = async function translateInput(interaction, textToTranslate) {
 	const responseText = await res.text();
 	const responseJson = await JSON.parse(responseText);
 	interaction.reply(responseJson[0][0][0] + '\n\n' + responseJson[2].toUpperCase() + ' to ' + languageDestination);
-}
+};

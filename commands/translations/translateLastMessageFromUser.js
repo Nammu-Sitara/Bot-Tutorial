@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const translate = require('../../src/translate.js')
+const translate = require('../../src/translate.js');
 
 module.exports = {
 	data: new SlashCommandBuilder ()
@@ -9,10 +9,10 @@ module.exports = {
 			option.setName('target')
 				.setDescription('The taget user')
 				.setRequired(true))
-        .addStringOption(option =>
-            option.setName('language')
-                .setDescription('Language destination')
-                .setRequired(false)),
+		.addStringOption(option =>
+			option.setName('language')
+				.setDescription('Language destination')
+				.setRequired(false)),
 
 	async execute(interaction) {
 		const targetUser = interaction.options.getUser('target');
