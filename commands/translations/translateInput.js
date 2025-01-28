@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const translate = require('../../src/translate.js');
 
 module.exports = {
@@ -15,10 +15,11 @@ module.exports = {
 				.setRequired(false)),
 
 	async execute(interaction) {
+		interaction.deferReply({ flags: MessageFlags.Ephemeral });
 		const input = interaction.options.getString('argument');
 		const targetLanguage = interaction.options.getString('language');
 
 		const translationResult = await translate(input, targetLanguage);
-		interaction.reply(`${translationResult.translation}\n\n${translationResult.sourceLanguage} to ${targetLanguage}`);
+		interaction.editReply(`${translationResult.translation}\n\n${translationResult.sourceLanguage} to ${targetLanguage}`);
 	},
 };

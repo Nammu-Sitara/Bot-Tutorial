@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const translate = require('../../src/translate.js');
 
 const messageLimit = 20;
@@ -17,6 +17,7 @@ module.exports = {
 				.setRequired(false)),
 
 	async execute(interaction) {
+		interaction.deferReply({ flags: MessageFlags.Ephemeral });
 		const targetLanguage = interaction.options.getString('language');
 		const targetUser = interaction.options.getUser('target');
 		const channel = interaction.channel;
@@ -27,10 +28,10 @@ module.exports = {
 
 		if (lastMessageFromUser) {
 			const translationResult = await translate(lastMessageFromUser.content, targetLanguage);
-			interaction.reply(`${translationResult.translation}\n\n${translationResult.sourceLanguage} to ${targetLanguage}`);
+			interaction.editReply(`${translationResult.translation}\n\n${translationResult.sourceLanguage} to ${targetLanguage}`);
 		}
 		else {
-			await interaction.reply(`No message from ${targetUser.username} in last ${messageLimit} messages of this channel.`);
+			await interaction.editReply(`No message from ${targetUser.username} in last ${messageLimit} messages of this channel.`);
 		}
 	},
 };
