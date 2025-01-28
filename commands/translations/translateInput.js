@@ -8,7 +8,12 @@ module.exports = {
         .addStringOption(option =>
             option.setName('argument')
                 .setDescription('The actual text you need to translate')
+                .setRequired(true))
+        .addStringOption(option =>   
+            option.setName('language')
+                .setDescription('Language destination')
                 .setRequired(true)),
+
     async execute(interaction){
         await translateInput(interaction);
     }
@@ -16,8 +21,10 @@ module.exports = {
 
 async function translateInput(interaction) {
     const input = interaction.options.getString('argument');
-    const res = await fetch(translateLink + input);
+    const languageDestination = interaction.options.getString('language');
+    const res = await fetch('https://translate.google.com/translate_a/single?client=gtx&sl=auto&tl=' + languageDestination + '&dt=t&q=' + input);
     const responseText = await res.text();
     const responseJson = await JSON.parse(responseText);
-    interaction.reply(responseJson[0][0][0]);
+    console.log('Translated: ' + responseJson[0][0][0] + '\n\n' + responseJson[0][8] + '->' + responseJson[0][8]);
+    interaction.reply('Translated: ' + responseJson[0][0][0] + '\n\n' + responseJson[0][8] + ' to ' + responseJson[0][8]);
 }
