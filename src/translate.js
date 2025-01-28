@@ -2,8 +2,12 @@ module.exports = async function translate(textToTranslate, targetLanguage) {
 	const res = await fetch(`https://translate.google.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${textToTranslate}`);
 	const responseText = await res.text();
 	const responseJson = await JSON.parse(responseText);
+	const translation = [];
+	for (const element of responseJson[0]) {
+		translation.push(element[0]);
+	}
 	return {
-		'translation': responseJson[0][0][0],
+		'translation': translation,
 		'sourceLanguage': responseJson[2].toUpperCase(),
 	};
 };
