@@ -17,10 +17,13 @@ module.exports = {
 				.setRequired(false)),
 
 	async execute(interaction) {
-		interaction.deferReply({ flags: MessageFlags.Ephemeral });
+		await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
 		try {
-			const targetLanguage = interaction.options.getString('language');
+			let targetLanguage = interaction.options.getString('language');
+			if (!targetLanguage) {
+				targetLanguage = 'EN';
+			}
 			const targetUser = interaction.options.getUser('target');
 			const channel = interaction.channel;
 
@@ -30,7 +33,7 @@ module.exports = {
 
 			if (lastMessageFromUser) {
 				const translationResult = await translate(lastMessageFromUser.content, targetLanguage);
-				interaction.editReply(`${translationResult.translation}\n\n${translationResult.sourceLanguage} to ${targetLanguage}`);
+				await interaction.editReply(`${translationResult.translation}\n\n${translationResult.sourceLanguage} to ${targetLanguage}`);
 			}
 			else {
 				await interaction.editReply(`No message from ${targetUser.username} in last ${messageLimit} messages of this channel.`);
