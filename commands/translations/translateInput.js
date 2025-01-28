@@ -16,7 +16,9 @@ module.exports = {
 
 	async execute(interaction) {
 		const input = interaction.options.getString('argument');
+		const targetLanguage = interaction.options.getString('language');
 
-		await translate(interaction, input);
+		const translationResult = await translate(input, targetLanguage);
+		interaction.reply(`${translationResult.translation}\n\n'${translationResult.sourceLanguage} to ${targetLanguage}`);
 	},
 };
