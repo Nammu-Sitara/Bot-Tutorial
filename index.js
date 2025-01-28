@@ -4,7 +4,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, GatewayIntentBits, Collection, Events } = require('discord.js');
-const config = require('./config.json');
+const BOT_TOKEN = process.env.BOT_TOKEN;
 
 // Creating client object
 const client = new Client({
@@ -38,7 +38,7 @@ for (const folder of commandFolders) {
 	}
 }
 
-client.login(config.BOT_TOKEN);
+client.login(BOT_TOKEN);
 
 client.on(Events.ClientReady, onReadyCallback);
 
