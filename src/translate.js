@@ -8,8 +8,9 @@ module.exports = async function translate(textToTranslate, targetLanguage) {
 	for (const element of responseJson[0]) {
 		translation.push(element[0]);
 	}
+	console.log(translation);
 	return {
-		'translation': translation,
+		'translation': translation.join(''),
 		'sourceLanguage': responseJson[responseJson.length - 7].toUpperCase(),
 	};
 };
