@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('discord.js');
-const translateLink = ('https://translate.google.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=');
 
 module.exports = {
 	data: new SlashCommandBuilder()
