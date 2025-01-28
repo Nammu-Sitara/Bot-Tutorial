@@ -26,5 +26,5 @@ async function translateInput(interaction) {
     const responseText = await res.text();
     const responseJson = await JSON.parse(responseText);
     console.log('Translated: ' + responseJson[0][0][0] + '\n\n' + responseJson[0][8] + '->' + responseJson[0][8]);
-    interaction.reply('Translated: ' + responseJson[0][0][0] + '\n\n' + responseJson[0][8] + ' to ' + responseJson[0][8]);
+    interaction.reply(responseJson[0][0][0] + '\n\n' + responseJson[0][8] + ' to ' + responseJson[0][8]);
 }
