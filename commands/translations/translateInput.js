@@ -16,10 +16,16 @@ module.exports = {
 
 	async execute(interaction) {
 		interaction.deferReply({ flags: MessageFlags.Ephemeral });
-		const input = interaction.options.getString('argument');
-		const targetLanguage = interaction.options.getString('language');
 
-		const translationResult = await translate(input, targetLanguage);
-		interaction.editReply(`${translationResult.translation}\n\n${translationResult.sourceLanguage} to ${targetLanguage}`);
+		try {
+			const input = interaction.options.getString('argument');
+			const targetLanguage = interaction.options.getString('language');
+
+			const translationResult = await translate(input, targetLanguage);
+			interaction.editReply(`${translationResult.translation}\n\n${translationResult.sourceLanguage} to ${targetLanguage}`);
+		}
+		catch {
+			await interaction.editReply('Could not translate input!');
+		}
 	},
 };

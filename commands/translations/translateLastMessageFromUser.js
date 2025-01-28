@@ -18,20 +18,26 @@ module.exports = {
 
 	async execute(interaction) {
 		interaction.deferReply({ flags: MessageFlags.Ephemeral });
-		const targetLanguage = interaction.options.getString('language');
-		const targetUser = interaction.options.getUser('target');
-		const channel = interaction.channel;
 
-		const messages = await channel.messages.fetch({ limit: messageLimit });
+		try {
+			const targetLanguage = interaction.options.getString('language');
+			const targetUser = interaction.options.getUser('target');
+			const channel = interaction.channel;
 
-		const lastMessageFromUser = messages.find(msg => msg.author.id === targetUser.id);
+			const messages = await channel.messages.fetch({ limit: messageLimit });
 
-		if (lastMessageFromUser) {
-			const translationResult = await translate(lastMessageFromUser.content, targetLanguage);
-			interaction.editReply(`${translationResult.translation}\n\n${translationResult.sourceLanguage} to ${targetLanguage}`);
+			const lastMessageFromUser = messages.find(msg => msg.author.id === targetUser.id);
+
+			if (lastMessageFromUser) {
+				const translationResult = await translate(lastMessageFromUser.content, targetLanguage);
+				interaction.editReply(`${translationResult.translation}\n\n${translationResult.sourceLanguage} to ${targetLanguage}`);
+			}
+			else {
+				await interaction.editReply(`No message from ${targetUser.username} in last ${messageLimit} messages of this channel.`);
+			}
 		}
-		else {
-			await interaction.editReply(`No message from ${targetUser.username} in last ${messageLimit} messages of this channel.`);
+		catch {
+			await interaction.editReply('Could not translate input!');
 		}
 	},
 };
