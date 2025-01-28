@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('discord.js');
 const translate = require('../../src/translate.js');
 
+const messageLimit = 20;
+
 module.exports = {
 	data: new SlashCommandBuilder ()
 		.setName('wut')
@@ -18,7 +20,7 @@ module.exports = {
 		const targetUser = interaction.options.getUser('target');
 		const channel = interaction.channel;
 
-		const messages = await channel.messages.fetch({ limit: 20 });
+		const messages = await channel.messages.fetch({ limit: messageLimit });
 
 		const lastMessageFromUser = messages.find(msg => msg.author.id === targetUser.id);
 
@@ -26,7 +28,7 @@ module.exports = {
 			await translate(interaction, lastMessageFromUser.content);
 		}
 		else {
-			await interaction.reply(`No message from ${targetUser.username} in last 20 messages of this channel.`);
+			await interaction.reply(`No message from ${targetUser.username} in last ${messageLimit} messages of this channel.`);
 		}
 	},
 };
