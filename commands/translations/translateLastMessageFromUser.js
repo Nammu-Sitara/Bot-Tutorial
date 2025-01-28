@@ -17,6 +17,7 @@ module.exports = {
 				.setRequired(false)),
 
 	async execute(interaction) {
+		const targetLanguage = interaction.options.getString('language');
 		const targetUser = interaction.options.getUser('target');
 		const channel = interaction.channel;
 
@@ -25,7 +26,9 @@ module.exports = {
 		const lastMessageFromUser = messages.find(msg => msg.author.id === targetUser.id);
 
 		if (lastMessageFromUser) {
-			await translate(interaction, lastMessageFromUser.content);
+			const translationResult = await translate(lastMessageFromUser.content, targetLanguage);
+			console.log(translationResult);
+			interaction.reply(translationResult.translation + '\n\n' + translationResult.sourceLanguage + ' to ' + targetLanguage);
 		}
 		else {
 			await interaction.reply(`No message from ${targetUser.username} in last ${messageLimit} messages of this channel.`);
