@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const translate = require('../../src/translate.js');
 
 const messageLimit = 20;
@@ -17,20 +17,30 @@ module.exports = {
 				.setRequired(false)),
 
 	async execute(interaction) {
-		const targetLanguage = interaction.options.getString('language');
-		const targetUser = interaction.options.getUser('target');
-		const channel = interaction.channel;
+		await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
-		const messages = await channel.messages.fetch({ limit: messageLimit });
+		try {
+			let targetLanguage = interaction.options.getString('language');
+			if (!targetLanguage) {
+				targetLanguage = 'EN';
+			}
+			const targetUser = interaction.options.getUser('target');
+			const channel = interaction.channel;
 
-		const lastMessageFromUser = messages.find(msg => msg.author.id === targetUser.id);
+			const messages = await channel.messages.fetch({ limit: messageLimit });
 
-		if (lastMessageFromUser) {
-			const translationResult = await translate(lastMessageFromUser.content, targetLanguage);
-			interaction.reply(`${translationResult.translation}\n\n${translationResult.sourceLanguage} to ${targetLanguage}`);
+			const lastMessageFromUser = messages.find(msg => msg.author.id === targetUser.id);
+
+			if (lastMessageFromUser) {
+				const translationResult = await translate(lastMessageFromUser.content, targetLanguage);
+				await interaction.editReply(`${translationResult.translation}\n\n${translationResult.sourceLanguage} to ${targetLanguage}`);
+			}
+			else {
+				await interaction.editReply(`No message from ${targetUser.username} in last ${messageLimit} messages of this channel.`);
+			}
 		}
-		else {
-			await interaction.reply(`No message from ${targetUser.username} in last ${messageLimit} messages of this channel.`);
+		catch {
+			await interaction.editReply('Could not translate input!');
 		}
 	},
 };
