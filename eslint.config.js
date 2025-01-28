@@ -18,6 +18,7 @@ module.exports = [
 			'comma-style': 'error',
 			curly: ['error', 'multi-line', 'consistent'],
 			'dot-location': ['error', 'property'],
+			'eol-last': ['error', 'always'],
 			'handle-callback-err': 'off',
 			indent: ['error', 'tab'],
 			'keyword-spacing': 'error',
