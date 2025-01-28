@@ -19,6 +19,6 @@ module.exports = {
 		const targetLanguage = interaction.options.getString('language');
 
 		const translationResult = await translate(input, targetLanguage);
-		interaction.reply(`${translationResult.translation}\n\n'${translationResult.sourceLanguage} to ${targetLanguage}`);
+		interaction.reply(`${translationResult.translation}\n\n${translationResult.sourceLanguage} to ${targetLanguage}`);
 	},
 };
