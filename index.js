@@ -6,7 +6,8 @@ const path = require('node:path');
 const { Client, GatewayIntentBits, Collection, Events } = require('discord.js');
 
 require('dotenv').config();
-const tokenEnvironment = process.argv.includes('--test') ? 'BOT_TOKEN_TEST' : 'BOT_TOKEN';
+const isTestEnv = process.argv.includes('--test');
+const tokenEnvironment = isTestEnv ? 'BOT_TOKEN_TEST' : 'BOT_TOKEN';
 const BOT_TOKEN = process.env[tokenEnvironment];
 
 // Creating client object
@@ -73,3 +74,16 @@ client.on(Events.InteractionCreate, async interaction => {
 		}
 	}
 });
+
+// Running server
+if (!isTestEnv) {
+	console.log('starting http server');
+	const http = require('http');
+	const PORT = process.env.PORT || 3000;
+	const server = http.createServer((req, res) => {
+		res.writeHead(200, { 'Content-Type': 'text/plain' });
+		res.end('For Super Earth');
+	});
+
+	server.listen(PORT, () => {console.log(`replying on ${PORT}`);});
+}
