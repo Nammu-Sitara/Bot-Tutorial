@@ -3,6 +3,11 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 require('dotenv').config();
+const tokenEnvironment = process.argv.includes('--test') ? 'BOT_TOKEN_TEST' : 'BOT_TOKEN';
+const BOT_TOKEN = process.env[tokenEnvironment];
+const clientEnvironment = process.argv.includes('--test') ? 'CLIENT_ID_TEST' : 'CLIENT_ID';
+const CLIENT_ID = process.env[clientEnvironment];
+const GUILD_ID = process.env.GUILD_ID;
 
 const commands = [];
 // Grab all the command folders from the commands directory you created earlier
@@ -27,7 +32,7 @@ for (const folder of commandFolders) {
 }
 
 // Construct and prepare an instance of the REST module
-const rest = new REST().setToken(process.env.BOT_TOKEN);
+const rest = new REST().setToken(BOT_TOKEN);
 
 // and deploy your commands!
 (async () => {
@@ -36,7 +41,7 @@ const rest = new REST().setToken(process.env.BOT_TOKEN);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data = await rest.put(
-			Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
+			Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
 			{ body: commands },
 		);
 
