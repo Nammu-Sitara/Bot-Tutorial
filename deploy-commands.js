@@ -7,7 +7,6 @@ const tokenEnvironment = process.argv.includes('--test') ? 'BOT_TOKEN_TEST' : 'B
 const BOT_TOKEN = process.env[tokenEnvironment];
 const clientEnvironment = process.argv.includes('--test') ? 'CLIENT_ID_TEST' : 'CLIENT_ID';
 const CLIENT_ID = process.env[clientEnvironment];
-const GUILD_ID = process.env.GUILD_ID;
 
 const commands = [];
 // Grab all the command folders from the commands directory you created earlier
@@ -41,7 +40,7 @@ const rest = new REST().setToken(BOT_TOKEN);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data = await rest.put(
-			Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
+			Routes.applicationCommands(CLIENT_ID),
 			{ body: commands },
 		);
 
