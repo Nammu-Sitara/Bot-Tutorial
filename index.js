@@ -4,6 +4,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, GatewayIntentBits, Collection, Events } = require('discord.js');
+
+require('dotenv').config();
 const tokenEnvironment = process.argv.includes('--test') ? 'BOT_TOKEN_TEST' : 'BOT_TOKEN';
 const BOT_TOKEN = process.env[tokenEnvironment];
 console.log(BOT_TOKEN);
