@@ -3,9 +3,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 require('dotenv').config();
-const tokenEnvironment = process.argv.includes('--test') ? 'BOT_TOKEN_TEST' : 'BOT_TOKEN';
+const tokenEnvironment = process.argv.includes('--release') ? 'BOT_TOKEN_RELEASE' : 'BOT_TOKEN_TEST';
 const BOT_TOKEN = process.env[tokenEnvironment];
-const clientEnvironment = process.argv.includes('--test') ? 'CLIENT_ID_TEST' : 'CLIENT_ID';
+const clientEnvironment = process.argv.includes('--release') ? 'CLIENT_ID_RELEASE' : 'CLIENT_ID_TEST';
 const CLIENT_ID = process.env[clientEnvironment];
 
 const commands = [];
