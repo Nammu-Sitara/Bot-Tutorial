@@ -100,7 +100,7 @@ if (isReleaseEnv) {
 				const endTime = Date.now();
 				console.log(`Pinged self - status: ${res.statusCode}. Response time: ${endTime - startTime}ms`);
 			}).on('error', (e) => {
-				console.error(`Error while pinging self: ${res.statusCode} - ${e.message}`);
+				console.error(`Error while pinging self: ${e.message}`);
 			});
 
 		}, 14 * 60 * 1000);
