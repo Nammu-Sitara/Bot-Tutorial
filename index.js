@@ -88,19 +88,24 @@ if (!isTestEnv) {
 	server.listen(PORT, () => {console.log(`replying on ${PORT}`);});
 
 	// self calling cron job
-	console.log('starting keep-alive cron job');
-	setInterval(() => {
-		const https = require('https');
-		const url = process.env.URL;
+	const url = process.env.URL;
+	if (url) {
+		console.log('starting keep-alive cron job');
+		setInterval(() => {
+			const https = require('https');
 
-		if (url) {
 			const startTime = Date.now();
+
 			https.get(URL, (res) => {
 				const endTime = Date.now();
 				console.log(`Pinged self - status: ${res.statusCode}. Response time: ${endTime - startTime}ms`);
 			}).on('error', (e) => {
 				console.error(`Error while pinging self: ${res.statusCode} - ${e.message}`);
 			});
-		}
-	}, 14 * 60 * 1000);
+
+		}, 14 * 60 * 1000);
+	}
+	else {
+		console.log('No url was found. Skipping keep-alive!');
+	}
 }
